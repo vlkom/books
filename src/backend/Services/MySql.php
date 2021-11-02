@@ -119,6 +119,21 @@ class MySql
 	}
 
 	/**
+	 * Функция экранирования строки
+	 *
+	 * @param string $value Экранируемая строка
+	 * @return string
+	 */
+	public function realEscapeString(string $value): string
+	{
+		if ($this->connect()) {
+			return $this->connection->real_escape_string($value);
+		}
+
+		return '';
+	}
+
+	/**
 	 * Возвращает параметры для подключения к БД
 	 * (при нескольких БД это будет отдельным файлом настроек и через связь с переменными окржуния)
 	 *
@@ -132,7 +147,7 @@ class MySql
 			'user'     => 'vlkom',
 			'password' => 'books',
 			'db'       => 'books',
-			'charset'  => 'utf-8',
+			'charset'  => 'utf8',
 		];
 	}
 }
