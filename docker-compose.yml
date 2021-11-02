@@ -15,7 +15,7 @@ services:
             - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
 
     mysql:
-#        platform: linux/x86_64 на M1 без этого не работает
+        platform: linux/x86_64 # на M1 без этого не работает
         restart: unless-stopped
         tty: true
         image: 'mysql:8.0'
