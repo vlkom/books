@@ -1,0 +1,37 @@
+version: '3'
+services:
+    php-fpm:
+        container_name: books_php
+        build: ./phpfpm
+        volumes:
+            - ./src:/books
+
+    nginx:
+        image: nginx:stable-alpine
+        ports:
+            - "80:80"
+        volumes:
+            - ./src:/books
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+    mysql:
+#        platform: linux/x86_64 на M1 без этого не работает
+        restart: unless-stopped
+        tty: true
+        image: 'mysql:8.0'
+        ports:
+            - '3306:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: 'books'
+            MYSQL_DATABASE: 'books'
+            MYSQL_USER: 'vlkom'
+            MYSQL_PASSWORD: 'books'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - ./src:/books
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
+            retries: 3
+            timeout: 5s
