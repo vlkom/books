@@ -52,7 +52,8 @@ class Request
 			array_pop($params);
 		}
 
-		$this->controller = isset($params[0]) && $params[0] ? ucfirst($params[0]) : '';
+		$controller = isset($params[0]) && $params[0] ? explode('?', ucfirst($params[0])) : '';
+		$this->controller = array_shift($controller);
 		$this->action = $params[1] ?? '';
 		$this->addParams = array_slice($params, 2);
 		$this->headers = array_change_key_case(getallheaders(), CASE_LOWER);
