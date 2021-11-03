@@ -18,7 +18,7 @@ $controllerPathFile = $path . '/Controllers/' . $Request->getController() . '.ph
 if (is_file($controllerPathFile)) {
 	require_once($controllerPathFile);
 
-	$action = $Request->getAction();
+	$action = $Request->getAction() ?: 'index';
 	$controllerPath = '\\Controllers\\' . $controllerName . 'Controller';
 	try {
 		$Controller = new $controllerPath();
