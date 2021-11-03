@@ -2,6 +2,7 @@
 
 namespace Common;
 
+use Common\Books\BooksNavigateModel;
 use Common\Navigate\Navigate;
 
 /**
@@ -54,6 +55,30 @@ class NavigateController extends Controller
 				$data = $this->Navigate->getFirst();
 		}
 
-		var_dump($data);
+		$hasContinuation = false;
+		if (count($data) === BooksNavigateModel::PACK_SIZE) {
+			$hasContinuation = true;
+			array_pop($data);
+		}
+
+		if ($navigateType === self::TYPE_PREVIOUS) {
+			usort($data, function(array $a, array $b) {
+				return $this->checkSortCondition($a, $b);
+			});
+		}
+
+		var_dump($hasContinuation, $data);
+	}
+
+	/**
+	 * Сравнивает определенные поля при сортировке двумерного массива
+	 *
+	 * @param array $current Текущий элемент
+	 * @param array $next Следующий элемент
+	 * @return bool
+	 */
+	protected function checkSortCondition(array $current, array $next): bool
+	{
+		return ($current['id'] > $next['id']);
 	}
 }

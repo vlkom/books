@@ -8,18 +8,13 @@ namespace Common\Books;
 class Books
 {
 	/**
-	 * Возвращает данные для пачки книг
+	 * Возвращает структурированные данные для пачки книг
 	 *
-	 * @param int $from Начальное значение для выборки
+	 * @param array $books Базовые данные по книгам
 	 * @return array
 	 */
-	public static function getBooks(int $from): array
+	public static function getStructuredBooks(array $books): array
 	{
-		$books = BooksModel::getBooksPack($from);
-		if (!$books) {
-			return [];
-		}
-
 		$authors = BooksModel::getAuthorsByBookIds(array_column($books, 'bookId'));
 		if (!$authors) {
 			return [];

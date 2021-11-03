@@ -2,7 +2,6 @@
 
 namespace Controllers;
 
-use Common\Books\Books;
 use Common\Books\BooksNavigate;
 use Common\NavigateController;
 
@@ -15,5 +14,13 @@ class BookslistController extends NavigateController
 	{
 		parent::__construct();
 		$this->setNavigate(new BooksNavigate());
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function checkSortCondition(array $current, array $next): bool
+	{
+		return ($current['bookId'] > $next['bookId']);
 	}
 }
