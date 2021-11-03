@@ -36,5 +36,3 @@ if (is_file($controllerPathFile)) {
 		$Response->sendJSON([], IErrors::ERROR_UNEXPECTED);
 	}
 }
-
-$Response->sendJSON([], IErrors::ERROR_NOT_FOUND);

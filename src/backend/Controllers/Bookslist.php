@@ -3,16 +3,17 @@
 namespace Controllers;
 
 use Common\Books\Books;
-use Common\Controller;
+use Common\Books\BooksNavigate;
+use Common\NavigateController;
 
 /**
- * Контроллер для страницы работ
+ * Контроллер для страницы книг
  */
-class BookslistController extends Controller
+class BookslistController extends NavigateController
 {
-	public function index(): void
+	public function __construct()
 	{
-		$from = $this->Request->getData()->int('from');
-		var_dump(Books::getBooks($from));die();
+		parent::__construct();
+		$this->setNavigate(new BooksNavigate());
 	}
 }

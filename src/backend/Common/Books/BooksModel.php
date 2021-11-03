@@ -9,36 +9,6 @@ use Common\Model;
  */
 class BooksModel extends Model
 {
-	/** Размер пачки для выдачи */
-	const PACK_SIZE = 10;
-
-	/**
-	 * Возвращает данные для пачки книг
-	 *
-	 * @param int $from Начальное значение для выборки
-	 * @return array
-	 */
-	public static function getBooksPack(int $from): array
-	{
-		$books = self::db()->fetchAll(
-			'SELECT
-				b.book_id AS bookId,
-				b.book_name AS bookName,
-				g.genre
-			FROM books b
-			INNER JOIN genres g ON b.genre_id = g.genre_id
-			WHERE b.book_id > %d
-			LIMIT %d',
-			$from,
-			self::PACK_SIZE
-		);
-		if ($books === false) {
-			self::triggerError();
-		}
-
-		return $books ?: [];
-	}
-
 	/**
 	 * Возвращает авторов по идентификаторам книг
 	 *
