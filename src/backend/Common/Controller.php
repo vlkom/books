@@ -24,7 +24,7 @@ abstract class Controller
 	/** @var string Путь до шаблона */
 	protected string $templatePath;
 	/** @var array Данные для шаблона */
-	protected array $data = [];
+	public array $data = [];
 
 	const MOVED_PERMANENTLY = 'HTTP/1.1 301 Moved Permanently';
 

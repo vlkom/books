@@ -15,8 +15,8 @@ class AuthorsModel extends Model
 	{
 		$authors = self::db()->fetchAll(
 			'SELECT
-				author_id AS authorId,
-				author_name AS authorName
+				author_id AS author_id,
+				author_name AS author_name
 			FROM authors'
 		);
 		if ($authors === false) {

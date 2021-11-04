@@ -41,13 +41,12 @@ class Books
 			return [];
 		}
 
-		// todo сделать отдельным методом в модели
-		$authors = BooksModel::getAuthorsByBookIds(array_column($book, 'book_id'));
+		$authors = BooksModel::getAuthorsByBookId($book['book_id']);
 		if (!$authors) {
 			return [];
 		}
 
-		$structureBook = self::structureData($book, $authors);
+		$structureBook = self::structureData([$book], $authors);
 
 		return array_shift($structureBook);
 	}
@@ -135,5 +134,15 @@ class Books
 		}
 
 		return $books;
+	}
+
+	/**
+	 * Возвращает список всех доступных годов
+	 *
+	 * @return array
+	 */
+	public static function getAllYears(): array
+	{
+		return BooksModel::getAllYears();
 	}
 }

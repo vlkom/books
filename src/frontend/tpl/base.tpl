@@ -5,27 +5,27 @@
 	{% block styles %}{% endblock %}
 </head>
 <body>
-<div class="card text-center">
-	<div class="card-header">
-		<ul class="nav nav-tabs card-header-tabs">
-			<li class="nav-item">
-				<a class="nav-link active" aria-current="true" href="#">Книги</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">Авторы</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link">Новая книга</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link">Новый автор</a>
-			</li>
-		</ul>
+	<div class="card text-center">
+		<div class="card-header">
+			<ul class="nav nav-tabs card-header-tabs">
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="true" href="#">Книги</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Авторы</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link">Новая книга</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link">Новый автор</a>
+				</li>
+			</ul>
+		</div>
+		<div class="card-body">
+			{% block content %}{% endblock %}
+		</div>
 	</div>
-	<div class="card-body">
-		{% block content %}{% endblock %}
-		{% block scripts %}{% endblock %}
-	</div>
-</div>
+	{% block scripts %}{% endblock %}
 </body>
 </html>

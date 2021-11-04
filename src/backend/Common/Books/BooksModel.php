@@ -47,6 +47,35 @@ class BooksModel extends Model
 	 * @param int $bookId Идентификатор книги
 	 * @return array
 	 */
+	public static function getAuthorsByBookId(int $bookId): array
+	{
+		if (!$bookId) {
+			return [];
+		}
+
+		$authors = self::db()->fetchAll(
+			'SELECT
+				ba.book_id,
+				ba.author_id,
+				a.author_name
+			FROM books_authors ba
+			INNER JOIN authors a ON ba.author_id = a.author_id
+			WHERE book_id = %d',
+			$bookId,
+		);
+		if ($authors === false) {
+			self::triggerError();
+		}
+
+		return $authors ?: [];
+	}
+
+	/**
+	 * Возвращает авторов по идентификатору книги
+	 *
+	 * @param int $bookId Идентификатор книги
+	 * @return array
+	 */
 	public static function getAuthorIdsByBookId(int $bookId): array
 	{
 		$authors = self::db()->fetchColumn(
@@ -72,7 +101,7 @@ class BooksModel extends Model
 	 */
 	public static function getBookById(int $bookId): array
 	{
-		$book = self::db()->fetchAll(
+		$book = self::db()->fetchFirstRow(
 			'SELECT
 				b.book_id,
 				b.book_name,
@@ -121,7 +150,7 @@ class BooksModel extends Model
 	{
 		$genres = self::db()->fetchAll(
 			'SELECT
-				genre_id AS genreId,
+				genre_id AS genre_id,
 				genre
 			FROM genres'
 		);
@@ -248,5 +277,24 @@ class BooksModel extends Model
 		return isset($filteredData['author_id'])
 			? sprintf(' AND a.author_id IN (%s)', $filteredData['author_id'])
 			: '';
+	}
+
+	/**
+	 * Возвращает список всех доступных годов
+	 *
+	 * @return array
+	 */
+	public static function getAllYears(): array
+	{
+		$years = self::db()->fetchAll(
+			'SELECT
+				publishing_year
+			FROM books'
+		);
+		if ($years === false) {
+			self::triggerError();
+		}
+
+		return $years ?: [];
 	}
 }

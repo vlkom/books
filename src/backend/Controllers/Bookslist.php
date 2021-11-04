@@ -2,6 +2,8 @@
 
 namespace Controllers;
 
+use Common\Authors\Authors;
+use Common\Books\Books;
 use Common\Books\BooksNavigate;
 use Common\Navigate\Sort;
 use Common\NavigateController;
@@ -54,5 +56,15 @@ class BookslistController extends NavigateController
 	protected function getFromByElement(array $element): int
 	{
 		return $element['book_id'] ?? 0;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function setAdditionalData(): void
+	{
+		$this->data['genres'] = Books::getAllGenres();
+		$this->data['years'] = Books::getAllYears();
+		$this->data['authors'] = Authors::getAllAuthors();
 	}
 }

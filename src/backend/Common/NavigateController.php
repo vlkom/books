@@ -55,6 +55,13 @@ abstract class NavigateController extends Controller
 	abstract protected function getFromByElement(array $element): int;
 
 	/**
+	 * Устанавливает дополнительные параметры в шаблон
+	 *
+	 * @return void
+	 */
+	abstract protected function setAdditionalData(): void;
+
+	/**
 	 * Устанавливает сущность для навигации
 	 *
 	 * @param Navigate $Navigate Поставщик данных при навигации
@@ -96,6 +103,8 @@ abstract class NavigateController extends Controller
 		$this->data['links'] = $this->getLinksForNavigate($data);
 		$this->data['elements'] = $data;
 		$this->setActivityLinks($hasContinuation);
+		$this->setAdditionalData();
+
 		$this->render();
 	}
 
