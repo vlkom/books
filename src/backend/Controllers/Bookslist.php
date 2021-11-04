@@ -38,12 +38,12 @@ class BookslistController extends NavigateController
 		// С фронта передать для всех фильтров в виде data.join('%2C')
 		$genre = $GetFilter->str('filterGenre');
 		$publishingYear = $GetFilter->str('filterYear');
-		$authorName = $GetFilter->str('filterAuthor');
+		$authorId = $GetFilter->str('filterAuthor');
 
 		return [
 			'genre' => $genre,
 			'publishing_year' => $publishingYear,
-			'author_name' => $authorName,
+			'author_id' => $authorId,
 		];
 	}
 }

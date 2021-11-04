@@ -25,7 +25,7 @@ class BooksNavigate extends Navigate
 	{
 		$books = BooksNavigateModel::getNext($this);
 
-		return Books::getStructuredBooks($books);
+		return Books::getStructuredBooks($books, $this->Filter);
 	}
 
 	/**
@@ -35,7 +35,7 @@ class BooksNavigate extends Navigate
 	{
 		$books = BooksNavigateModel::getPrevious($this);
 
-		return Books::getStructuredBooks($books);
+		return Books::getStructuredBooks($books, $this->Filter);
 	}
 
 	/**
@@ -45,7 +45,7 @@ class BooksNavigate extends Navigate
 	{
 		$books = BooksNavigateModel::getFirst($this);
 
-		return Books::getStructuredBooks($books);
+		return Books::getStructuredBooks($books, $this->Filter);
 	}
 
 	/**
@@ -55,6 +55,6 @@ class BooksNavigate extends Navigate
 	{
 		$books = BooksNavigateModel::getLast($this);
 
-		return Books::getStructuredBooks($books);
+		return Books::getStructuredBooks($books, $this->Filter);
 	}
 }

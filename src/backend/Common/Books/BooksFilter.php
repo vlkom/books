@@ -15,7 +15,7 @@ class BooksFilter extends Filter
 	public function validate($fieldName): bool
 	{
 		switch ($fieldName) {
-			case 'author_name':
+			case 'author_id':
 			case 'genre':
 			case 'publishing_year':
 				return true;
