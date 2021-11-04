@@ -16,7 +16,7 @@ class BooksFilter extends Filter
 	{
 		switch ($fieldName) {
 			case 'author_id':
-			case 'genre':
+			case 'genre_id':
 			case 'publishing_year':
 				return true;
 			default:

@@ -128,6 +128,7 @@ class Books
 
 			if (!isset($book['authors'])) {
 				unset($books[$key]);
+				continue;
 			}
 
 			$book['authors'] = implode(', ', $book['authors']);

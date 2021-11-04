@@ -118,19 +118,13 @@ abstract class NavigateController extends Controller
 		$navigateType = $this->Request->getData()->int('type');
 		switch ($navigateType) {
 			case self::TYPE_NEXT:
-				$this->data['hasPrevious'] = true;
 				return $this->Navigate->getNext();
 			case self::TYPE_PREVIOUS:
-				$this->data['hasNext'] = true;
 				return $this->Navigate->getPrevious();
 			case self::TYPE_LAST:
-				$this->data['hasPrevious'] = true;
-				$this->data['hasNext'] = false;
 				return $this->Navigate->getLast();
 			case self::TYPE_FIRST:
 			default:
-				$this->data['hasNext'] = true;
-				$this->data['hasPrevious'] = false;
 				return $this->Navigate->getFirst();
 		}
 	}

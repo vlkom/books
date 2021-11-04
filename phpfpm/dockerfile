@@ -27,7 +27,7 @@ RUN docker-php-ext-install \
     && docker-php-ext-enable mysqli pdo_mysql pdo
 
 WORKDIR /books
-COPY ./../src/composer.json ./composer.json
+COPY ./src/composer.json ./composer.json
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

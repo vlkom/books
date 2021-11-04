@@ -39,12 +39,12 @@ class BookslistController extends NavigateController
 	{
 		$GetFilter = $this->Request->getData();
 		// С фронта передать для всех фильтров в виде data.join('%2C')
-		$genre = $GetFilter->str('filter_genre');
+		$genre = $GetFilter->str('filter_genre_id');
 		$publishingYear = $GetFilter->str('filter_publishing_year');
 		$authorId = $GetFilter->str('filter_author_id');
 
 		return [
-			'genre' => $genre,
+			'genre_id' => $genre,
 			'publishing_year' => $publishingYear,
 			'author_id' => $authorId,
 		];
@@ -64,7 +64,12 @@ class BookslistController extends NavigateController
 	protected function setAdditionalData(): void
 	{
 		$this->data['genres'] = Books::getAllGenres();
+		$this->Navigate->Filter->markSelectedFields($this->data['genres'], 'genre_id');
+
 		$this->data['years'] = Books::getAllYears();
+		$this->Navigate->Filter->markSelectedFields($this->data['years'], 'publishing_year');
+
 		$this->data['authors'] = Authors::getAllAuthors();
+		$this->Navigate->Filter->markSelectedFields($this->data['authors'], 'author_id');
 	}
 }

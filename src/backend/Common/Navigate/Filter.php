@@ -34,4 +34,24 @@ abstract class Filter implements IValidator
 	{
 		return $this->filteredData;
 	}
+
+	/**
+	 * Помечает выбранные поля
+	 *
+	 * @param array $data Данные для выдачи
+	 * @param string $checkField Поле для проверки
+	 */
+	public function markSelectedFields(array &$data, string $checkField): void
+	{
+		if (!isset($this->filteredData[$checkField])) {
+			return;
+		}
+
+		$filteredAuthorIds = explode(',', $this->filteredData[$checkField]);
+		foreach ($data as &$element) {
+			if ($filteredAuthorIds && in_array($element[$checkField], $filteredAuthorIds)) {
+				$element['selected'] = true;
+			}
+		}
+	}
 }
