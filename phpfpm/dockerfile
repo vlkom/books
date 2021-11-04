@@ -7,7 +7,6 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    libmemcached-dev \
     zlib1g-dev \
     zip \
     unzip
@@ -27,23 +26,13 @@ RUN docker-php-ext-install \
     gd \
     && docker-php-ext-enable mysqli pdo_mysql pdo
 
-# Install memcached
-RUN pecl install memcached-3.1.5 \
-    && docker-php-ext-enable memcached
-
-# Install xdebug
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
+WORKDIR /books
+COPY ./../src/composer.json ./composer.json
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-COPY conf.d/* /usr/local/etc/php/conf.d/
-
-WORKDIR /lmdelivery
+RUN composer install --prefer-source --no-interaction
+COPY phpfpm/conf.d/* /usr/local/etc/php/conf.d/
 
 # Из документации: The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, 
 # or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.

@@ -15,6 +15,7 @@ class BookslistController extends NavigateController
 	{
 		parent::__construct();
 		$this->setNavigate(new BooksNavigate());
+		$this->setTemplate('bookslist/index.tpl');
 	}
 
 	/**
@@ -36,14 +37,22 @@ class BookslistController extends NavigateController
 	{
 		$GetFilter = $this->Request->getData();
 		// С фронта передать для всех фильтров в виде data.join('%2C')
-		$genre = $GetFilter->str('filterGenre');
-		$publishingYear = $GetFilter->str('filterYear');
-		$authorId = $GetFilter->str('filterAuthor');
+		$genre = $GetFilter->str('filter_genre');
+		$publishingYear = $GetFilter->str('filter_publishing_year');
+		$authorId = $GetFilter->str('filter_author_id');
 
 		return [
 			'genre' => $genre,
 			'publishing_year' => $publishingYear,
 			'author_id' => $authorId,
 		];
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getFromByElement(array $element): int
+	{
+		return $element['book_id'] ?? 0;
 	}
 }

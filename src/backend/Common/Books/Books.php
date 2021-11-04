@@ -41,6 +41,7 @@ class Books
 			return [];
 		}
 
+		// todo сделать отдельным методом в модели
 		$authors = BooksModel::getAuthorsByBookIds(array_column($book, 'book_id'));
 		if (!$authors) {
 			return [];
@@ -122,16 +123,15 @@ class Books
 		foreach ($books as $key => &$book) {
 			foreach ($authors as $author) {
 				if ($book['book_id'] === $author['book_id']) {
-					$book['authors'][] = [
-						'author_id' => $author['author_id'],
-						'author_name' => $author['author_name'],
-					];
+					$book['authors'][] = $author['author_name'];
 				}
 			}
 
 			if (!isset($book['authors'])) {
 				unset($books[$key]);
 			}
+
+			$book['authors'] = implode(', ', $book['authors']);
 		}
 
 		return $books;

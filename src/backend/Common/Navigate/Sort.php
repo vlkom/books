@@ -54,6 +54,16 @@ abstract class Sort implements IValidator
 	}
 
 	/**
+	 * Возвращает тип сортировки в числовом виде
+	 *
+	 * @return int
+	 */
+	public function getSortTypeInt(): int
+	{
+		return (int) ($this->sortType === self::SORT_TYPE_DESC);
+	}
+
+	/**
 	 * Возвращает тип сортировки
 	 *
 	 * @return string

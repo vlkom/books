@@ -3,10 +3,14 @@
 use Common\IErrors;
 use Common\Request\Request;
 use Common\Response\Response;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 require_once __DIR__ . '/Autoloader.php';
 
 Autoloader::register();
+
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $Request = new Request();
 $Response = new Response();

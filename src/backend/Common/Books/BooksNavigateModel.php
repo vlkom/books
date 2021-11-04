@@ -24,7 +24,7 @@ class BooksNavigateModel extends Model
 		$sortField = $Navigate->Sort->getSortField();
 		$orderBy = $sortField
 			? 'ORDER BY ' . $sortField . ' ' . $Navigate->Sort->getSortType()
-			: 'ORDER BY b.book_id DESC';
+			: 'ORDER BY b.book_id ' . $Navigate->Sort->getSortType();
 		$sortDirection = $Navigate->Sort->getSortType() === Sort::SORT_TYPE_ASC ? '>' : '<';
 
 		$books = self::db()->fetchAll(
@@ -60,7 +60,7 @@ class BooksNavigateModel extends Model
 		$sortField = $Navigate->Sort->getSortField();
 		$orderBy = $sortField
 			? 'ORDER BY ' . $sortField . ' ' . $Navigate->Sort->getReverseSortType()
-			: 'ORDER BY b.book_id DESC';
+			: 'ORDER BY b.book_id ' . $Navigate->Sort->getReverseSortType();
 		$sortDirection = $Navigate->Sort->getSortType() === Sort::SORT_TYPE_ASC ? '<' : '>';
 
 		$books = self::db()->fetchAll(
@@ -176,7 +176,7 @@ class BooksNavigateModel extends Model
 				$sortDirection,
 				$Navigate->from
 			)
-			: sprintf('WHERE b.book_id > %d', $Navigate->from);
+			: sprintf('WHERE b.book_id %s %d', $sortDirection, $Navigate->from);
 
 		return $where . self::getFilterWhere($Navigate, false);
 	}
