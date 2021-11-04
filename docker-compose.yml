@@ -31,6 +31,7 @@ services:
             SERVICE_NAME: mysql
         volumes:
             - ./src:/books
+            - ./dumps:/docker-entrypoint-initdb.d
         healthcheck:
             test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
             retries: 3
