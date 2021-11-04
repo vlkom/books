@@ -6,7 +6,7 @@ create table books
     publishing_year int          default 1900 not null comment 'Год издания',
     constraint books_book_id_uindex
         unique (book_id)
-)
+) default charset=utf8
     comment 'Таблица с книгами';
 
 alter table books

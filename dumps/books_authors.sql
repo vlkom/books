@@ -6,7 +6,7 @@ create table authors
         unique (author_id),
     constraint book_authors_author_name_uindex
         unique (author_name)
-)
+) default charset=utf8
     comment 'Авторы книг';
 
 alter table authors

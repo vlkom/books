@@ -3,7 +3,7 @@ create table books_authors
     book_id   int default 0 not null comment 'Идентификатор книги',
     author_id int default 0 not null comment 'Идентификатор автора',
     primary key (book_id, author_id)
-)
+) default charset=utf8
     comment 'Связь книг и их акторов';
 
 INSERT INTO books.books_authors (book_id, author_id) VALUES (1, 1);

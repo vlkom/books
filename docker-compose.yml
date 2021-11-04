@@ -29,10 +29,13 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
             SERVICE_TAGS: dev
             SERVICE_NAME: mysql
+            LANG: C.UTF-8
         volumes:
-            - ./src:/books
+            - books:/var/lib/mysql
             - ./dumps:/docker-entrypoint-initdb.d
         healthcheck:
             test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
             retries: 3
             timeout: 5s
+volumes:
+    books:

@@ -4,7 +4,7 @@ create table genres
     genre    varchar(255) default '' not null comment 'Название жанра',
     constraint genres_genre_id_uindex
         unique (genre_id)
-)
+) default charset=utf8
     comment 'Жанры для книг';
 
 alter table genres
