@@ -15,7 +15,7 @@ class BookValidator implements IValidator
 	/**
 	 * {@inheritDoc}
 	 */
-	public function validate(array $data): bool
+	public function validate($data): bool
 	{
 		return $data['authorIds']
 			&& $data['bookName']

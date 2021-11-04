@@ -12,7 +12,7 @@ class AuthorValidator implements IValidator
 	/**
 	 * {@inheritDoc}
 	 */
-	public function validate(array $data): bool
+	public function validate($data): bool
 	{
 		return $data['authorName']
 			&& ($data['authorId'] || AuthorsModel::checkUniqueName($data['authorName']));

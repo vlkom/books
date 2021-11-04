@@ -23,9 +23,9 @@ class BooksModel extends Model
 
 		$authors = self::db()->fetchAll(
 			'SELECT
-				ba.book_id AS bookId,
-				ba.author_id AS authorId,
-				a.author_name AS authorName
+				ba.book_id,
+				ba.author_id,
+				a.author_name
 			FROM books_authors ba
 			INNER JOIN authors a ON ba.author_id = a.author_id
 			WHERE book_id IN (%s)',
@@ -71,9 +71,9 @@ class BooksModel extends Model
 	{
 		$book = self::db()->fetchAll(
 			'SELECT
-				b.book_id AS bookId,
-				b.book_name AS bookName,
-				b.publishing_year AS publishingYear,
+				b.book_id,
+				b.book_name,
+				b.publishing_year,
 				g.genre
 			FROM books b
 			INNER JOIN genres g ON b.genre_id = g.genre_id

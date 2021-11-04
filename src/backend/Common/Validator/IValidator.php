@@ -10,8 +10,8 @@ interface IValidator
 	/**
 	 * Выполняет валидацию
 	 *
-	 * @param array $data Данные для валидации
+	 * @param mixed $data Данные для валидации
 	 * @return bool
 	 */
-	public function validate(array $data): bool;
+	public function validate($data): bool;
 }

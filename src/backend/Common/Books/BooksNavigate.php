@@ -10,11 +10,20 @@ use Common\Navigate\Navigate;
 class BooksNavigate extends Navigate
 {
 	/**
+	 * Construct
+	 */
+	public function __construct()
+	{
+		$this->Sort = new BooksSort();
+		$this->Filter = new BooksFilter();
+	}
+
+	/**
 	 * @inheritDoc
 	 */
-	public function getNext(int $fromId): array
+	public function getNext(): array
 	{
-		$books = BooksNavigateModel::getNext($fromId);
+		$books = BooksNavigateModel::getNext($this);
 
 		return Books::getStructuredBooks($books);
 	}
@@ -22,9 +31,9 @@ class BooksNavigate extends Navigate
 	/**
 	 * @inheritDoc
 	 */
-	public function getPrevious(int $fromId): array
+	public function getPrevious(): array
 	{
-		$books = BooksNavigateModel::getPrevious($fromId);
+		$books = BooksNavigateModel::getPrevious($this);
 
 		return Books::getStructuredBooks($books);
 	}
@@ -34,7 +43,7 @@ class BooksNavigate extends Navigate
 	 */
 	public function getFirst(): array
 	{
-		$books = BooksNavigateModel::getFirst();
+		$books = BooksNavigateModel::getFirst($this);
 
 		return Books::getStructuredBooks($books);
 	}
@@ -44,7 +53,7 @@ class BooksNavigate extends Navigate
 	 */
 	public function getLast(): array
 	{
-		$books = BooksNavigateModel::getLast();
+		$books = BooksNavigateModel::getLast($this);
 
 		return Books::getStructuredBooks($books);
 	}

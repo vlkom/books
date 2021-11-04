@@ -15,7 +15,7 @@ class Books
 	 */
 	public static function getStructuredBooks(array $books): array
 	{
-		$authors = BooksModel::getAuthorsByBookIds(array_column($books, 'bookId'));
+		$authors = BooksModel::getAuthorsByBookIds(array_column($books, 'book_id'));
 		if (!$authors) {
 			return [];
 		}
@@ -40,7 +40,7 @@ class Books
 			return [];
 		}
 
-		$authors = BooksModel::getAuthorsByBookIds(array_column($book, 'bookId'));
+		$authors = BooksModel::getAuthorsByBookIds(array_column($book, 'book_id'));
 		if (!$authors) {
 			return [];
 		}
@@ -120,10 +120,10 @@ class Books
 	{
 		foreach ($books as &$book) {
 			foreach ($authors as $author) {
-				if ($book['bookId'] === $author['bookId']) {
+				if ($book['book_id'] === $author['book_id']) {
 					$book['authors'][] = [
-						'authorId' => $author['authorId'],
-						'authorName' => $author['authorName'],
+						'author_id' => $author['author_id'],
+						'author_name' => $author['author_name'],
 					];
 				}
 			}

@@ -7,21 +7,28 @@ namespace Common\Navigate;
  */
 abstract class Navigate
 {
+	/** @var Sort Сущность для сортировки */
+	public Sort $Sort;
+	/** @var Filter Фильтр данных */
+	public Filter $Filter;
+	/** @var int Идентификатор, ограничивающий выборку */
+	public int $from;
+	/** @var string Значение сортировки ограничивающее выборку */
+	public string $fromSort;
+
 	/**
 	 * Возвращает данные для следующей страницы
 	 *
-	 * @param int $fromId Идентификатор, ограничивающий выборку
 	 * @return array
 	 */
-	abstract public function getNext(int $fromId): array;
+	abstract public function getNext(): array;
 
 	/**
 	 * Возвращает данные для предыдущей страницы
 	 *
-	 * @param int $fromId Идентификатор, ограничивающий выборку
 	 * @return array
 	 */
-	abstract public function getPrevious(int $fromId): array;
+	abstract public function getPrevious(): array;
 
 	/**
 	 * Возвращает данные для первой страницы

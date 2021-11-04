@@ -8,7 +8,7 @@ use Common\Navigate\Navigate;
 /**
  * Контроллер навигации
  */
-class NavigateController extends Controller
+abstract class NavigateController extends Controller
 {
 	/** @var Navigate Поставщик данных при навигации */
 	protected Navigate $Navigate;
@@ -21,6 +21,22 @@ class NavigateController extends Controller
 	const TYPE_LAST = 3;
 	/** Тип навигации: первая страница */
 	const TYPE_FIRST = 4;
+
+	/**
+	 * Сравнивает определенные поля при сортировке двумерного массива
+	 *
+	 * @param array $current Текущий элемент
+	 * @param array $next Следующий элемент
+	 * @return bool
+	 */
+	abstract protected function checkSortCondition(array $current, array $next): bool;
+
+	/**
+	 * Получает данные для фильтрации из GET
+	 *
+	 * @return array
+	 */
+	abstract protected function getFilteredData(): array;
 
 	/**
 	 * Устанавливает сущность для навигации
@@ -38,47 +54,64 @@ class NavigateController extends Controller
 	 */
 	public function index(): void
 	{
-		$from = $this->Request->getData()->int('from');
-		$navigateType = $this->Request->getData()->int('type');
-		switch ($navigateType) {
-			case self::TYPE_NEXT:
-				$data = $this->Navigate->getNext($from);
-				break;
-			case self::TYPE_PREVIOUS:
-				$data = $this->Navigate->getPrevious($from);
-				break;
-			case self::TYPE_LAST:
-				$data = $this->Navigate->getLast();
-				break;
-			case self::TYPE_FIRST:
-			default:
-				$data = $this->Navigate->getFirst();
+		$GetFilter = $this->Request->getData();
+		$this->Navigate->from = $GetFilter->int('from');
+		$this->Navigate->fromSort = $GetFilter->str('fromSort');
+		$sortType = (bool) $GetFilter->int('sortType');
+		$sortField = $GetFilter->str('sortBy');
+		$filteredData = $this->getFilteredData();
+
+		$this->Navigate->Sort->setSortType($sortType);
+		$this->Navigate->Sort->setField($sortField);
+		foreach ($filteredData as $filterName => $filterValue) {
+			$this->Navigate->Filter->setField($filterName, $filterValue);
 		}
 
-		$hasContinuation = false;
-		if (count($data) === BooksNavigateModel::PACK_SIZE) {
-			$hasContinuation = true;
-			array_pop($data);
-		}
+		$data = $this->getData();
+		$hasContinuation = $this->hasContinuation($data);
 
-		if ($navigateType === self::TYPE_PREVIOUS) {
-			usort($data, function(array $a, array $b) {
-				return $this->checkSortCondition($a, $b);
-			});
-		}
+		usort($data, function(array $a, array $b) {
+			return $this->checkSortCondition($a, $b);
+		});
 
 		var_dump($hasContinuation, $data);
 	}
 
 	/**
-	 * Сравнивает определенные поля при сортировке двумерного массива
+	 * Возвращает данные
 	 *
-	 * @param array $current Текущий элемент
-	 * @param array $next Следующий элемент
+	 * @return array
+	 */
+	protected function getData(): array
+	{
+		$navigateType = $this->Request->getData()->int('type');
+		switch ($navigateType) {
+			case self::TYPE_NEXT:
+				return $this->Navigate->getNext();
+			case self::TYPE_PREVIOUS:
+				return $this->Navigate->getPrevious();
+			case self::TYPE_LAST:
+				return $this->Navigate->getLast();
+			case self::TYPE_FIRST:
+			default:
+				return $this->Navigate->getFirst();
+		}
+	}
+
+	/**
+	 * Определяет, существует ли следующая страница
+	 *
+	 * @param array $data Данные
 	 * @return bool
 	 */
-	protected function checkSortCondition(array $current, array $next): bool
+	protected function hasContinuation(array &$data): bool
 	{
-		return ($current['id'] > $next['id']);
+		if (count($data) !== BooksNavigateModel::PACK_SIZE) {
+			return false;
+		}
+
+		array_pop($data);
+
+		return true;
 	}
 }

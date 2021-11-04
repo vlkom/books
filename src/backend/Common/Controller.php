@@ -9,7 +9,7 @@ use Common\Validator\IValidator;
 /**
  * Базовый контроллер
  */
-class Controller
+abstract class Controller
 {
 	/** @var Request Объект Request */
 	protected Request $Request;
