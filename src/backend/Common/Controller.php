@@ -38,6 +38,7 @@ abstract class Controller
 		$this->Request = new Request();
 		$this->Response = new Response();
 		$this->params = $this->Request->getAddParams();
+		$this->data['currentController'] = $this->Request->getController();
 	}
 
 	/**

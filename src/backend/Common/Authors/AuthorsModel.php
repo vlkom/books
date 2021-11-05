@@ -49,15 +49,18 @@ class AuthorsModel extends Model
 	 * Проверяет имя автора на уникальность
 	 *
 	 * @param string $name Имя автора
+	 * @param int $authorId Идентификатор текущего автора
 	 * @return bool
 	 */
-	public static function checkUniqueName(string $name): bool
+	public static function checkUniqueName(string $name, int $authorId): bool
 	{
 		return !((bool) self::db()->fetchFirstField(
 			'SELECT 1
 			FROM authors
-			WHERE author_name LIKE ("%s")',
-			$name
+			WHERE author_name LIKE ("%s")
+			AND author_id != %d',
+			$name,
+			$authorId
 		));
 	}
 

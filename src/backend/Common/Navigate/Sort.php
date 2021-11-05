@@ -10,14 +10,26 @@ use Common\Validator\IValidator;
 abstract class Sort implements IValidator
 {
 	/** @var string Тип сортировки */
-	private string $sortType = self::SORT_TYPE_ASC;
+	protected string $sortType = self::SORT_TYPE_ASC;
 	/** @var string Поле для сортировки */
-	private string $sortField = '';
+	protected string $sortField = '';
 
 	/** Тип сортировки: сортировка по возрастанию */
 	const SORT_TYPE_ASC = 'ASC';
 	/** Тип сортировки: сортировка по убыванию */
 	const SORT_TYPE_DESC = 'DESC';
+
+	/** Тип сортировки числовой: сортировка по возрастанию */
+	const SORT_TYPE_NUM_ASC = 0;
+	/** Тип сортировки числовой: сортировка по убыванию */
+	const SORT_TYPE_NUM_DESC = 1;
+
+	/**
+	 * Возвращает список сортировки
+	 *
+	 * @return array
+	 */
+	abstract public function getSortList(): array;
 
 	/**
 	 * Устанавливает поле для сортировки

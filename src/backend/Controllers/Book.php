@@ -27,12 +27,18 @@ class BookController extends Controller
 	 */
 	public function edit(): void
 	{
+		$this->setTemplate('book/edit.tpl');
 		$bookId = $this->params ? array_pop($this->params) : 0;
 
-		$book = Books::getBookById($bookId);
-		$genres = Books::getAllGenres();
-		$authors = Authors::getAllAuthors();
-		var_dump($book);die();
+		$this->data['book'] = Books::getBookById($bookId);
+		$this->data['genres'] = Books::getAllGenres();
+		$this->data['authors'] = Authors::getAllAuthors();
+		if ($this->data['book']) {
+			Books::markSaved($this->data['genres'], (int) $this->data['book']['genre_id']);
+			Authors::markSaved($this->data['authors'], $this->data['book']['authorIds']);
+		}
+
+		$this->render();
 	}
 
 	/**
@@ -51,7 +57,10 @@ class BookController extends Controller
 		$saveData = compact('bookId', 'bookName', 'genreId', 'publishingYear', 'authorIds');
 
 		if (!$this->Validator->validate($saveData)) {
-			$this->Response->sendJSON(['success' => false], IErrors::ERROR_VALIDATION_FAILED);
+			$this->Response->sendJSON([
+				'success' => false,
+				'validateErrorData' => $this->Validator->getErrorMessage($saveData),
+			], IErrors::ERROR_VALIDATION_FAILED);
 		}
 
 		if (!Books::saveBook($saveData)) {

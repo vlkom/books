@@ -197,10 +197,10 @@ class BooksNavigateModel extends Model
 				? sprintf('WHERE b.publishing_year IN (%s)', $filteredData['publishing_year'])
 				: sprintf(' AND b.publishing_year IN (%s)', $filteredData['publishing_year']);
 		}
-		if (isset($filteredData['genre'])) {
+		if (isset($filteredData['genre_id'])) {
 			$filteredWhere .= $filteredWhere || !$newWhere
-				? sprintf(' AND g.genre_id IN (%s)', $filteredData['genre'])
-				: sprintf('WHERE g.genre_id IN (%s)', $filteredData['genre']);
+				? sprintf(' AND g.genre_id IN (%s)', $filteredData['genre_id'])
+				: sprintf('WHERE g.genre_id IN (%s)', $filteredData['genre_id']);
 		}
 
 		return $filteredWhere;

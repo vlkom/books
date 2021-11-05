@@ -27,9 +27,15 @@ class AuthorController extends Controller
 	 */
 	public function edit(): void
 	{
+		$this->setTemplate('author/edit.tpl');
 		$authorId = $this->params ? array_pop($this->params) : 0;
 		$authorName = $authorId ? Authors::getAuthorName($authorId) : '';
-		var_dump($authorName);die();
+		$this->data['author'] = [
+			'author_id' => $authorName ? $authorId : 0,
+			'author_name' => $authorName
+		];
+
+		$this->render();
 	}
 
 	/**
@@ -44,7 +50,10 @@ class AuthorController extends Controller
 		$authorName = $Filter->str('authorName');
 		$saveData = compact('authorId', 'authorName');
 		if (!$this->Validator->validate($saveData)) {
-			$this->Response->sendJSON(['success' => false], IErrors::ERROR_VALIDATION_FAILED);
+			$this->Response->sendJSON([
+				'success' => false,
+				'validateErrorData' => $this->Validator->getErrorMessage($saveData),
+			], IErrors::ERROR_VALIDATION_FAILED);
 		}
 
 		if (!Authors::saveAuthor($saveData)) {

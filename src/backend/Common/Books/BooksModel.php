@@ -106,7 +106,8 @@ class BooksModel extends Model
 				b.book_id,
 				b.book_name,
 				b.publishing_year,
-				g.genre
+				g.genre,
+				g.genre_id
 			FROM books b
 			INNER JOIN genres g ON b.genre_id = g.genre_id
 			WHERE b.book_id = %d',
@@ -128,11 +129,12 @@ class BooksModel extends Model
 	{
 		$authorsCount = self::db()->fetchAll(
 			'SELECT
-				a.author_name AS authorName,
-				COUNT(*) AS booksCount
-			FROM books_authors ba
-			INNER JOIN authors a ON ba.author_id = a.author_id
-			GROUP BY ba.author_id'
+				a.author_name,
+				a.author_id,
+				COUNT(ba.book_id) AS books_count
+			FROM authors a
+			LEFT JOIN books_authors ba ON ba.author_id = a.author_id
+			GROUP BY a.author_id'
 		);
 		if (!$authorsCount) {
 			self::triggerError();
@@ -165,15 +167,18 @@ class BooksModel extends Model
 	 * Проверяет название на уникальность
 	 *
 	 * @param string $name Название
+	 * @param int $bookId Идентификатор текущей книги
 	 * @return bool
 	 */
-	public static function checkUniqueName(string $name): bool
+	public static function checkUniqueName(string $name, int $bookId): bool
 	{
 		return !((bool) self::db()->fetchFirstField(
 			'SELECT 1
 			FROM books
-			WHERE book_name LIKE ("%s")',
-			$name
+			WHERE book_name LIKE ("%s")
+			AND book_id != %d',
+			$name,
+			$bookId
 		));
 	}
 
@@ -289,7 +294,9 @@ class BooksModel extends Model
 		$years = self::db()->fetchAll(
 			'SELECT
 				publishing_year
-			FROM books'
+			FROM books
+			GROUP BY publishing_year
+			ORDER BY publishing_year'
 		);
 		if ($years === false) {
 			self::triggerError();

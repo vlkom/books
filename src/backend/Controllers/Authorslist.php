@@ -7,9 +7,10 @@ use Common\Controller;
 
 class AuthorslistController extends Controller
 {
-	public static function index(): void
+	public function index(): void
 	{
-		// todo данные готовы
-		var_dump(Books::getBooksCountForAuthors());die();
+		$this->setTemplate('authorslist/index.tpl');
+		$this->data['authors'] = Books::getBooksCountForAuthors();
+		$this->render();
 	}
 }

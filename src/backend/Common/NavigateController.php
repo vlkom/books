@@ -83,7 +83,7 @@ abstract class NavigateController extends Controller
 		$sortType = (bool) $GetFilter->int('sortType');
 		$sortField = $GetFilter->str('sortBy');
 		$filteredData = $this->getFilteredData();
-// todo разбить
+
 		$this->Navigate->Sort->setSortType($sortType);
 		$this->Navigate->Sort->setField($sortField);
 		foreach ($filteredData as $filterName => $filterValue) {
@@ -102,6 +102,7 @@ abstract class NavigateController extends Controller
 
 		$this->data['links'] = $this->getLinksForNavigate($data);
 		$this->data['elements'] = $data;
+		$this->data['sortList'] = $this->Navigate->Sort->getSortList();
 		$this->setActivityLinks($hasContinuation);
 		$this->setAdditionalData();
 

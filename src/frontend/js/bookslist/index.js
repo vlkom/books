@@ -1,53 +1,52 @@
+const initFilter = (filter, fieldName) => {
+	if (filter) {
+		filter.select2();
+		filter.on('change', () => {
+			const filterData = filter.select2('data');
+			const SearchParams = new URLSearchParams(location.search);
+			let filterIds = [];
+			if (filterData) {
+				filterData.forEach(filterElement => {
+					filterIds.push(filterElement.id);
+				});
+			}
+			filterIds = filterIds.join(',');
+			if (filterIds) {
+				SearchParams.set(fieldName, filterIds);
+			} else {
+				SearchParams.delete(fieldName);
+			}
+
+			const params = SearchParams.toString();
+			location.href = params ? location.pathname + '?' + params : location.pathname;
+		});
+	}
+};
+
 const init = () => {
-	const authorsFilter = $(".js-multiple-authors");
-	const genresFilter = $(".js-multiple-genres");
-	const yearsFilter = $(".js-multiple-years");
+	initFilter($('.js-multiple-authors'), 'filter_author_id');
+	initFilter($('.js-multiple-genres'), 'filter_genre_id');
+	initFilter($('.js-multiple-years'), 'filter_publishing_year');
 
-	authorsFilter.select2();
-	genresFilter.select2();
-	yearsFilter.select2();
+	const sortList = $('.js-sort-list');
+	if (sortList) {
+		sortList.on('change', () => {
+			const selectedOption = $('.js-sort-list option:selected');
+			const sortBy = selectedOption.data('sortBy');
+			const sortType = selectedOption.data('sortType');
+			const SearchParams = new URLSearchParams(location.search);
+			if (sortBy) {
+				SearchParams.set('sortBy', sortBy);
+				SearchParams.set('sortType', sortType);
+			} else {
+				SearchParams.delete('sortBy');
+				SearchParams.delete('sortType');
+			}
 
-	authorsFilter.on('change', () => {
-		const authorsData = authorsFilter.select2('data');
-		const SearchParams = new URLSearchParams(location.search);
-		let authorIds = [];
-		if (authorsData) {
-			authorsData.forEach(author => {
-				authorIds.push(author.id);
-			});
-		}
-		authorIds = authorIds.join(',');
-		SearchParams.set('filter_author_id', authorIds);
-		location.href = location.pathname + '?' + SearchParams.toString();
-	});
-
-	genresFilter.on('change', () => {
-		const genresData = genresFilter.select2('data');
-		const SearchParams = new URLSearchParams(location.search);
-		let genreIds = [];
-		if (genresData) {
-			genresData.forEach(genre => {
-				genreIds.push(genre.id);
-			});
-		}
-		genreIds = genreIds.join(',');
-		SearchParams.set('filter_genre_id', genreIds);
-		location.href = location.pathname + '?' + SearchParams.toString();
-	});
-
-	yearsFilter.on('change', () => {
-		const yearsData = yearsFilter.select2('data');
-		const SearchParams = new URLSearchParams(location.search);
-		let yearIds = [];
-		if (yearsData) {
-			yearsData.forEach(year => {
-				yearIds.push(year.id);
-			});
-		}
-		yearIds = yearIds.join(',');
-		SearchParams.set('filter_publishing_year', yearIds);
-		location.href = location.pathname + '?' + SearchParams.toString();
-	});
+			const params = SearchParams.toString();
+			location.href = params ? location.pathname + '?' + params : location.pathname;
+		});
+	}
 };
 
 document.addEventListener('DOMContentLoaded', init, false);

@@ -123,6 +123,7 @@ class Books
 			foreach ($authors as $author) {
 				if ($book['book_id'] === $author['book_id']) {
 					$book['authors'][] = $author['author_name'];
+					$book['authorIds'][] = $author['author_id'];
 				}
 			}
 
@@ -131,7 +132,7 @@ class Books
 				continue;
 			}
 
-			$book['authors'] = implode(', ', $book['authors']);
+			$book['authorsStr'] = implode(', ', $book['authors']);
 		}
 
 		return $books;
@@ -145,5 +146,21 @@ class Books
 	public static function getAllYears(): array
 	{
 		return BooksModel::getAllYears();
+	}
+
+	/**
+	 * Помечает сохраненный жанр
+	 *
+	 * @param array &$genres Все жанры
+	 * @param int $genreId Идентификатор сохраненного жанра
+	 * @return void
+	 */
+	public static function markSaved(array &$genres, int $genreId): void
+	{
+		foreach ($genres as &$genre) {
+			if ($genre['genre_id'] == $genreId) {
+				$genre['selected'] = true;
+			}
+		}
 	}
 }

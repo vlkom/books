@@ -52,4 +52,20 @@ class Authors
 
 		return AuthorsModel::deleteAuthorBooks($authorId, $bookIds);
 	}
+
+	/**
+	 * Помечает сохраненных авторов
+	 *
+	 * @param array &$authors Все авторы
+	 * @param array $authorIds Идентификаторы сохраненных авторов
+	 * @return void
+	 */
+	public static function markSaved(array &$authors, array $authorIds): void
+	{
+		foreach ($authors as &$author) {
+			if (in_array($author['author_id'], $authorIds)) {
+				$author['selected'] = true;
+			}
+		}
+	}
 }
