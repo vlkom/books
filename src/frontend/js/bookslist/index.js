@@ -13,6 +13,7 @@ const initFilter = (filter, fieldName) => {
 			filterIds = filterIds.join(',');
 			if (filterIds) {
 				SearchParams.set(fieldName, filterIds);
+				SearchParams.delete('type');
 			} else {
 				SearchParams.delete(fieldName);
 			}
@@ -38,6 +39,7 @@ const init = () => {
 			if (sortBy) {
 				SearchParams.set('sortBy', sortBy);
 				SearchParams.set('sortType', sortType);
+				SearchParams.delete('type');
 			} else {
 				SearchParams.delete('sortBy');
 				SearchParams.delete('sortType');

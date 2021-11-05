@@ -13,10 +13,9 @@ class BooksModel extends Model
 	 * Возвращает авторов по идентификаторам книг
 	 *
 	 * @param array $bookIds Идентификаторы книг
-	 * @param BooksFilter $Filter Объект фильтра
 	 * @return array
 	 */
-	public static function getAuthorsByBookIds(array $bookIds, BooksFilter $Filter): array
+	public static function getAuthorsByAuthorsIds(array $bookIds): array
 	{
 		if (!$bookIds) {
 			return [];
@@ -29,10 +28,8 @@ class BooksModel extends Model
 				a.author_name
 			FROM books_authors ba
 			INNER JOIN authors a ON ba.author_id = a.author_id
-			WHERE book_id IN (%s)
-			%s',
-			implode(',', $bookIds),
-			self::getFilterWhere($Filter),
+			WHERE ba.author_id IN (%s)',
+			implode(',', $bookIds)
 		);
 		if ($authors === false) {
 			self::triggerError();
@@ -267,21 +264,6 @@ class BooksModel extends Model
 			'DELETE FROM books_authors WHERE book_id = %d AND author_id IN (%s)',
 			$bookId, implode(',', $authorsIds)
 		);
-	}
-
-	/**
-	 * Возвращает условие для фильтров
-	 *
-	 * @param BooksFilter $Filter Объект фильтра
-	 * @return string
-	 */
-	private static function getFilterWhere(BooksFilter $Filter): string
-	{
-		$filteredData = $Filter->getFilteredData();
-
-		return isset($filteredData['author_id'])
-			? sprintf(' AND a.author_id IN (%s)', $filteredData['author_id'])
-			: '';
 	}
 
 	/**

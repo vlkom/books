@@ -11,12 +11,11 @@ class Books
 	 * Возвращает структурированные данные для пачки книг
 	 *
 	 * @param array $books Базовые данные по книгам
-	 * @param BooksFilter $Filter Объект фильтра
 	 * @return array
 	 */
-	public static function getStructuredBooks(array $books, BooksFilter $Filter): array
+	public static function getStructuredBooks(array $books): array
 	{
-		$authors = BooksModel::getAuthorsByBookIds(array_column($books, 'book_id'), $Filter);
+		$authors = BooksModel::getAuthorsByAuthorsIds(array_column($books, 'author_id'));
 		if (!$authors) {
 			return [];
 		}

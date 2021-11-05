@@ -32,9 +32,11 @@ class BooksNavigateModel extends Model
 				b.book_id,
 				b.book_name,
 				b.publishing_year,
-				g.genre
+				g.genre,
+				ba.author_id
 			FROM books b
 			INNER JOIN genres g ON b.genre_id = g.genre_id
+			INNER JOIN books_authors ba ON ba.book_id = b.book_id
 			%s
 			%s
 			LIMIT %d',
@@ -68,9 +70,11 @@ class BooksNavigateModel extends Model
 				b.book_id,
 				b.book_name,
 				b.publishing_year,
-				g.genre
+				g.genre,
+				ba.author_id
 			FROM books b
 			INNER JOIN genres g ON b.genre_id = g.genre_id
+			INNER JOIN books_authors ba ON ba.book_id = b.book_id
 			%s
 			%s
 			LIMIT %d',
@@ -103,9 +107,11 @@ class BooksNavigateModel extends Model
 				b.book_id,
 				b.book_name,
 				b.publishing_year,
-				g.genre
+				g.genre,
+				ba.author_id
 			FROM books b
 			INNER JOIN genres g ON b.genre_id = g.genre_id
+			INNER JOIN books_authors ba ON ba.book_id = b.book_id
 			%s
 			%s
 			LIMIT %d',
@@ -138,9 +144,11 @@ class BooksNavigateModel extends Model
 				b.book_id,
 				b.book_name,
 				b.publishing_year,
-				g.genre
+				g.genre,
+				ba.author_id
 			FROM books b
 			INNER JOIN genres g ON b.genre_id = g.genre_id
+			INNER JOIN books_authors ba ON ba.book_id = b.book_id
 			%s
 			%s
 			LIMIT %d',
@@ -201,6 +209,11 @@ class BooksNavigateModel extends Model
 			$filteredWhere .= $filteredWhere || !$newWhere
 				? sprintf(' AND g.genre_id IN (%s)', $filteredData['genre_id'])
 				: sprintf('WHERE g.genre_id IN (%s)', $filteredData['genre_id']);
+		}
+		if (isset($filteredData['author_id'])) {
+			$filteredWhere .= $filteredWhere || !$newWhere
+				? sprintf(' AND ba.author_id IN (%s)', $filteredData['author_id'])
+				: sprintf('WHERE ba.author_id IN (%s)', $filteredData['author_id']);
 		}
 
 		return $filteredWhere;
