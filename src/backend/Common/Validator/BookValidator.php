@@ -19,6 +19,7 @@ class BookValidator implements IValidator, IValidatorMessage
 	{
 		return $data['authorIds']
 			&& $data['bookName']
+			&& $data['genreId']
 			&& strlen($data['bookName']) <= self::MAX_LENGTH_NAME
 			&& $data['publishingYear'] <= ((int) date('Y'))
 			&& BooksModel::checkUniqueName($data['bookName'], $data['bookId']);
@@ -35,6 +36,11 @@ class BookValidator implements IValidator, IValidatorMessage
 		if (!$data['bookName']) {
 			$message = 'Заполните название книги';
 			$id = 'book-name-error';
+		}
+
+		if (!$data['genreId']) {
+			$message = 'Выберите жанр';
+			$id = 'book-genre-error';
 		}
 
 		if (!$data['authorIds']) {

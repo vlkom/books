@@ -15,7 +15,7 @@ class Books
 	 */
 	public static function getStructuredBooks(array $books): array
 	{
-		$authors = BooksModel::getAuthorsByAuthorsIds(array_column($books, 'author_id'));
+		$authors = BooksModel::getAuthorsByBooksIds(array_column($books, 'book_id'));
 		if (!$authors) {
 			return [];
 		}

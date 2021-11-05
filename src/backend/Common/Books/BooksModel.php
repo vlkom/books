@@ -15,7 +15,7 @@ class BooksModel extends Model
 	 * @param array $bookIds Идентификаторы книг
 	 * @return array
 	 */
-	public static function getAuthorsByAuthorsIds(array $bookIds): array
+	public static function getAuthorsByBooksIds(array $bookIds): array
 	{
 		if (!$bookIds) {
 			return [];
@@ -28,7 +28,7 @@ class BooksModel extends Model
 				a.author_name
 			FROM books_authors ba
 			INNER JOIN authors a ON ba.author_id = a.author_id
-			WHERE ba.author_id IN (%s)',
+			WHERE ba.book_id IN (%s)',
 			implode(',', $bookIds)
 		);
 		if ($authors === false) {

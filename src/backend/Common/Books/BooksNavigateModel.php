@@ -33,11 +33,12 @@ class BooksNavigateModel extends Model
 				b.book_name,
 				b.publishing_year,
 				g.genre,
-				ba.author_id
+				COUNT(ba.author_id)
 			FROM books b
 			INNER JOIN genres g ON b.genre_id = g.genre_id
 			INNER JOIN books_authors ba ON ba.book_id = b.book_id
 			%s
+			GROUP BY b.book_id
 			%s
 			LIMIT %d',
 			self::getWhereCondition($Navigate, $sortDirection),
@@ -71,11 +72,12 @@ class BooksNavigateModel extends Model
 				b.book_name,
 				b.publishing_year,
 				g.genre,
-				ba.author_id
+				COUNT(ba.author_id)
 			FROM books b
 			INNER JOIN genres g ON b.genre_id = g.genre_id
 			INNER JOIN books_authors ba ON ba.book_id = b.book_id
 			%s
+			GROUP BY b.book_id
 			%s
 			LIMIT %d',
 			self::getWhereCondition($Navigate, $sortDirection),
@@ -108,11 +110,12 @@ class BooksNavigateModel extends Model
 				b.book_name,
 				b.publishing_year,
 				g.genre,
-				ba.author_id
+				COUNT(ba.author_id)
 			FROM books b
 			INNER JOIN genres g ON b.genre_id = g.genre_id
 			INNER JOIN books_authors ba ON ba.book_id = b.book_id
 			%s
+			GROUP BY b.book_id
 			%s
 			LIMIT %d',
 			self::getFilterWhere($Navigate, true),
@@ -145,11 +148,12 @@ class BooksNavigateModel extends Model
 				b.book_name,
 				b.publishing_year,
 				g.genre,
-				ba.author_id
+				COUNT(ba.author_id)
 			FROM books b
 			INNER JOIN genres g ON b.genre_id = g.genre_id
 			INNER JOIN books_authors ba ON ba.book_id = b.book_id
 			%s
+			GROUP BY b.book_id
 			%s
 			LIMIT %d',
 			self::getFilterWhere($Navigate, true),
